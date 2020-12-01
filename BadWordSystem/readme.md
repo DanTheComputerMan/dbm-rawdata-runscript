@@ -28,6 +28,8 @@ To setup this system, you must either be the server owner, have `administrator` 
 
 ### Due to the previous version and the updated version being drastically different, the old version is no longer supported and may have incompatibility issues. To ensure you have a working version please run the included reset command and follow the instructions.
 
+`BadWordFilter` is a "any message sent" command type; all other commands are normal commands.
+
 ## Guide on how to use the system:
 For this example, the prefix will be `!`. Yours may vary, and if so, substitute your prefix instead. The default alias is `bws`.
 ```css

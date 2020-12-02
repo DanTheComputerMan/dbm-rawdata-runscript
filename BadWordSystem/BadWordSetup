@@ -33,16 +33,21 @@
 		return new_arr.join(symbol);
 	}
 	
-	db.set(`servers.${msg.guild.id}.badwordsystem.version`, {"config":"2.1.1", "filter":"2.0.2", "reset":"1.0.0", "convert":"1.0.0"});
+	db.set(`servers.${msg.guild.id}.badwordsystem.version`, {"config":"2.2.0", "filter":"2.0.2", "reset":"1.0.0", "convert":"1.0.0"});
 	const badwordsystem = db.get(`servers.${msg.guild.id}.badwordsystem`) || {};
 	
 	// This is a starting bad word list. You may, and likely will add more to this (though you should do so through the provided commands).
 	const wordlist = badwordsystem.badwordlist || [{"word":"anal"},{"word":"anus"},{"word":"arse"},{"word":"ass"},{"word":"asshole"},{"word":"ballsack"},{"word":"balls"},{"word":"bastard"},{"word":"bitch"},{"word":"blowjob"},{"word":"blow job"},{"word":"boner"},{"word":"boob"},{"word":"clit"},{"word":"clitoris"},{"word":"cock"},{"word":"coon"},{"word":"cunnilingus"},{"word":"cunt"},{"word":"damn"},{"word":"dick"},{"word":"dildo"},{"word":"dyke"},{"word":"fag"},{"word":"faggot"},{"word":"fellate"},{"word":"fellatio"},{"word":"fuck"},{"word":"goddamn"},{"word":"god damn"},{"word":"hell"},{"word":"homo"},{"word":"jizz"},{"word":"labia"},{"word":"nigga"},{"word":"nigger"},{"word":"penis"},{"word":"pube"},{"word":"pussy"},{"word":"queer"},{"word":"scrotum"},{"word":"sex"},{"word":"shit"},{"word":"slut"},{"word":"smegma"},{"word":"tit"},{"word":"twat"},{"word":"vagina"},{"word":"wank"},{"word":"whore"}];
 	
+	const prefix = (server && server.tag) || Actions.getDBM().Files.data.settings.tag || "!";
+	const args = msg.content.slice(prefix.length).trim().split(/ +/g); 
+	const command = args[0]; args.shift();
+	
 	ensurePath(['status'], badwordsystem, false);
 	ensurePath(['config', 'channels', 'badwordlog'], badwordsystem);
 	ensurePath(['config', 'channels', 'actionlog'], badwordsystem);
 	ensurePath(['config', 'defaults', 'config'], badwordsystem);
+	ensurePath(['config', 'commands', 'addword'], badwordsystem);
 	ensurePath(['config', 'filters', 'channels'], badwordsystem, []);
 	ensurePath(['config', 'filters', 'roles'], badwordsystem, []);
 	ensurePath(['config', 'commands', 'disabled'], badwordsystem, []);
@@ -52,10 +57,6 @@
 	const actionlogchannel = bot.channels.cache.get(badwordsystem.config.channels.actionlog.channelid) || ''; // In case no channel exists anymore for the stored ChannelID.
 	const default_rules = badwordsystem.config.defaults.config.rules || {};
 	
-	const prefix = (server && server.tag) || Actions.getDBM().Files.data.settings.tag || "!";
-	const args = msg.content.slice(prefix.length).trim().split(/ +/g); 
-	const command = args[0]; args.shift();
-	
 	const configperms = [ "BAN_MEMBERS", "KICK_MEMBERS", "MANAGE_MESSAGES" ];
 	const msgperms = [ "SEND_MESSAGES", "EMBED_LINKS", "ATTACH_FILES" ];
 	
@@ -64,7 +65,7 @@
 	const messageperms = msgperms.every(p => msg.channel.permissionsFor(bot.user.id).has(p));
 	
 	const pages = { "help":{}, "enable":{}, "disable":{}, "status":{}, "version":{}, "addword":{ "help":{}, "**<type anything else>**":{} }, 
-	"download":{}, "upload":{}, "channels":{ "help":{}, "status":{}, "badwordlog":{}, "actionlog":{} }, "defaults":{ "help":{}, "usermode":{ "help":{}, "status": {}, "mention":{}, "tag":{}, "id":{} }, "matchstyle":{ "help":{}, "status":{}, "regexbased":{}, "matchany":{}, "matchanycasingmatters":{}, "matchword":{}, "matchwordcasingmatters":{} }, "action":{ "help":{}, "status":{}, "delete":{}, "mute":{}, "kick":{}, "ban":{} }, "muterole":{}, "color":{}, "thumbnail":{}, "footer":{}, "timestamp":{} }, "filters":{ "help":{}, "status": {}, "channel":{}, "role":{} }, "rules":{ "help":{}, "status":{}, "BreakOnMatch":{}, "PostDeleteMessage":{}, "PostDeleteMessageText":{}, "PostMuteMessage":{}, "PostKickMessage":{}, "PostBanMessage":{} }, "transferfrom":{}, "transferto":{} };
+	"download":{}, "upload":{}, "channels":{ "help":{}, "status":{}, "badwordlog":{}, "actionlog":{} }, "defaults":{ "help":{}, "addword":{ "help":{}, "status":{}, "responsetime":{} }, "usermode":{ "help":{}, "status": {}, "mention":{}, "tag":{}, "id":{} }, "matchstyle":{ "help":{}, "status":{}, "regexbased":{}, "matchany":{}, "matchanycasingmatters":{}, "matchword":{}, "matchwordcasingmatters":{} }, "action":{ "help":{}, "status":{}, "delete":{}, "mute":{}, "kick":{}, "ban":{} }, "muterole":{}, "color":{}, "thumbnail":{}, "footer":{}, "timestamp":{} }, "filters":{ "help":{}, "status": {}, "channel":{}, "role":{} }, "rules":{ "help":{}, "status":{}, "BreakOnMatch":{}, "PostDeleteMessage":{}, "PostDeleteMessageText":{}, "PostMuteMessage":{}, "PostKickMessage":{}, "PostBanMessage":{} }, "transferfrom":{}, "transferto":{} };
 	
 	const url = `https://github.com/DanTheComputerMan/javascript/tree/master/Discord%20Bot%20Maker%20(DBM)/RAW%20Data/Bad%20Words%20System`;
 	const tutorial = `For more info, visit the [GitHub](${url}) page.`;
@@ -121,11 +122,12 @@
 				switch (args[1]) {
 					case undefined:
 					case 'help':
-						content = `Bad Word System Add Word Menu\n\nThe available commands are: \n**${Object.keys(pages.addword).join('**, **')}**\n\nFor a full list of features, visit the [GitHub](${url}) page.`;
+						content = `Bad Word System Add Word Help Menu\n\nThe available commands are: \n**${Object.keys(pages.addword).join('**, **')}**\n\nFor a full list of features, visit the [GitHub](${url}) page.`;
 						em.setDescription(content)
 						msg.channel.send(messageperms ? em : content);
 						break;
 					default:
+						const time = (badwordsystem.config.commands.addword.responsetime || 15) * 1000;
 						const id_regex = /\b\d+\b/
 						
 						const words = []; let response_arr = [];
@@ -167,9 +169,9 @@
 							return new Promise(resolve => {
 								if (!questions[questionnum]) {
 									content = "Do you wish to add another word/phrase? **`yes`** or **`no`**";
-									em.setDescription(content)
+									em.setDescription(content);
 									msg.channel.send(messageperms ? em : content).then(prompt_msg => {
-										const collector = msg.channel.createMessageCollector(message => message.author.id === msg.author.id, {max:1, time:10000});
+										const collector = msg.channel.createMessageCollector(message => message.author.id === msg.author.id, {max:1, time:time});
 										
 										collector.on('end', collected => {
 											const response = (collected.map(m => m.content)[0] || '').toLowerCase();
@@ -188,9 +190,9 @@
 									});
 								} else {
 									content = questions[questionnum];
-									em.setDescription(content)
+									em.setDescription(content);
 									msg.channel.send(messageperms ? em : content).then(prompt_msg => {
-										const collector = msg.channel.createMessageCollector(message => message.author.id === msg.author.id, {max:1, time:10000});
+										const collector = msg.channel.createMessageCollector(message => message.author.id === msg.author.id, {max:1, time:time});
 										
 										collector.on('end', collected => {
 											let response = collected.map(m => m.content)[0];
@@ -198,19 +200,21 @@
 											if (["cancel", undefined].some(ind => ind === response)) cancelled = true;
 											if (response === "done") completed = true;
 											
+											if (!response) response = '';
+											
 											if (cancelled || completed) {
 											// if there are no pre-set responses for this step, then continue.
 											} else if (!valid_responses[questionnum]) {
-											} else if (valid_responses[questionnum].indexOf((response || '').toLowerCase()) === -1) {
+											} else if (valid_responses[questionnum].indexOf(response.toLowerCase()) === -1) {
 												content = "That was not a valid response (The response is case sensitive). Cancelled the question sequence, although any previous words/phrases have been saved.";
-												em.setDescription(content)
-												msg.channel.send(messageperms ? em : content)
+												em.setDescription(content);
+												msg.channel.send(messageperms ? em : content);
 												invalid = true; resolve();
 											}
 											
 											switch (questionnum) {
 												case 2:
-													response = ((msg.mentions.channels.first()) ? msg.mentions.channels.map(chan => chan.id) : response.split(' ')).map(c => id_regex.test(c) ? c.match(id_regex)[0] : '').filter(Boolean);
+													response = ((msg.mentions.channels.first()) ? msg.mentions.channels.map(chan => chan.id) : response.split(' ')).map(c => id_regex.test(c) ? c.match(id_regex)[0] : '').filter(Boolean)
 													break;
 												case 3:
 													response = ((msg.mentions.roles.first()) ? msg.mentions.roles.map(role => role.id) : response.split(' ')).map(r => id_regex.test(r) ? r.match(id_regex)[0] : '').filter(Boolean)
@@ -322,6 +326,40 @@
 						content = `Bad Word System Defaults Help Menu\n\nThe available options are: \n**${Object.keys(pages.defaults).join("**, **")}**\n\nFor a full list of features, visit the [GitHub](${url}) page.`;
 						em.setDescription(content);
 						msg.channel.send(messageperms ? em : content);
+						break;
+					case 'addword':
+						switch (args[2]) {
+							case undefined:
+							case 'help':
+								content = `Bad Word System Add Word Help Menu\n\nThe available commands are: \n**${Object.keys(pages.defaults.addword).join('**, **')}**\n\nFor a full list of features, visit the [GitHub](${url}) page.`;
+								em.setDescription(content);
+								msg.channel.send(messageperms ? em : content);
+								break;
+							case 'status':
+								content = `Your Bad Word System Add Word defaults are:\n${Object.entries(badwordsystem.config.commands.addword).map(p => `**\`${p[0]}\`**: ${p[1]}`).join('\n') || "**<No set values>**"}`;
+								em.setDescription(content);
+								msg.channel.send(messageperms ? em : content);
+								break;
+							case 'responsetime':
+								let num = parseInt(args[3]);
+								
+								if (num !== 0 && (!num || isNaN(num))) {
+									content = "That was not a valid number.";
+								} else if (num < 4 || num > 60) {
+									content = "You may not set the default response time to a number less than 4 or greater than 60 seconds."
+								} else {
+									db.set(`servers.${msg.guild.id}.badwordsystem.config.commands.addword.responsetime`, num);
+									content = `Successfully set the number of seconds to wait for input with the addword subcommand to ${num} seconds`;
+								}
+								em.setDescription(content);
+								msg.channel.send(messageperms ? em : content);
+								break;
+							default:
+								content = `Sorry, **${formatText(args.join(' '))}** was not a valid selection.`;
+								em.setDescription(content);
+								msg.channel.send(messageperms ? em : content);
+								break;
+						}
 						break;
 					case 'usermode':
 						switch (args[2]) {

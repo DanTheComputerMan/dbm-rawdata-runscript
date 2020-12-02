@@ -1,4 +1,7 @@
-// Javascript code here. Do NOT edit this or you will likely break it.
+// Javascript code here. Editing this will prevent you from receiving any support.
+if (!global.CGsDBMBadWordSystemVersions) global.CGsDBMBadWordSystemVersions = {};
+global.CGsDBMBadWordSystemVersions.Convert = "1.0.2";
+
 const https = require('https');
 const ensure = this.getMods().require;
 const db = ensure('quick.db');
@@ -9,7 +12,6 @@ function ensurePath(path, obj, def) { // def = default value (optional; defaults
         obj = obj[path[i]] = obj[path[i]] || ((def !== undefined && (i === path.length - 1)) ? def : {});
     }
 }
-
 
 function trim(str) { // Trims leading and trailing spaces from a string.
 	return str.replace(/^\s+|\s+$/gm,'');
@@ -35,6 +37,7 @@ ensurePath(['config', 'defaults', 'config'], badwordsystem);
 ensurePath(['config', 'badwordlog', 'channelid'], badwordsystem, '');
 ensurePath(['config', 'actionlog', 'channelid'], badwordsystem, '');
 ensurePath(['config', 'commands', 'disabled'], badwordsystem, []);
+
 
 const enabled = badwordsystem.status;
 const badwordlogchannel = bot.channels.cache.get(badwordsystem.config.badwordlog.channelid) || ''; // In case no channel exists anymore for the stored ChannelID.

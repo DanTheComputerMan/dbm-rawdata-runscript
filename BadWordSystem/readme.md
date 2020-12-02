@@ -46,7 +46,7 @@ For this example, the prefix will be `!`. Yours may vary, and if so, substitute 
 !BadWordsSetup rules         (A selection of various rules to choose from that changes how the system behaves when it sees a bad word.)
 !BadWordsSetup transferfrom  (Sends an attachment or link containing all settings in the Bad Word System including bad words.)
 !BadWordsSetup transferto    (Uploads a file containg all settings for the Bad Word System. This is useful if you want to copy the settings from one server to another.)
-!BadWordsSetup version       (Shows you the versions of the commands you have so far. This is helpful to know if you have the most up-to-date version of the system, and which ones (if any) are out-of-date. The current versions are: config:2.2.0, filter:2.0.2, reset:1.0.0, convert:1.0.0
+!BadWordsSetup version       (Shows you the versions of the commands you have so far. This is helpful to know if you have the most up-to-date version of the system, and which ones (if any) are out-of-date. The current versions are: config:2.2.1, filter:2.1.0, reset:1.0.1, convert:1.0.2
 ```
 
 For the upload command, attach a file, and run the command in the "add a comment" field, or alternatively, run the command and add a link to the file (must be a .txt file) **`!BadWordsSetup upload http://www.site.com/list.txt`**

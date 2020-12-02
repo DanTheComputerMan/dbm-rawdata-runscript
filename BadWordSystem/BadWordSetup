@@ -1,4 +1,6 @@
 // Javascript code here. Editing this will prevent you from receiving any support.
+if (!global.CGsDBMBadWordSystemVersions) global.CGsDBMBadWordSystemVersions = {};
+global.CGsDBMBadWordSystemVersions.Config = "2.2.1";
 (async () => {
 	const https = require('https');
 	const ensure = Actions.getMods().require;
@@ -33,8 +35,16 @@
 		return new_arr.join(symbol);
 	}
 	
-	db.set(`servers.${msg.guild.id}.badwordsystem.version`, {"config":"2.2.0", "filter":"2.0.2", "reset":"1.0.0", "convert":"1.0.0"});
 	const badwordsystem = db.get(`servers.${msg.guild.id}.badwordsystem`) || {};
+	
+	// to work with previous versions that saved old data here.
+	if (badwordsystem.version && badwordsystem.version.config) delete badwordsystem.version; db.delete(`servers.${msg.guild.id}.badwordsystem.version`);
+	
+	if (!badwordsystem.version) badwordsystem.version = {};
+	badwordsystem.version.Config = global.CGsDBMBadWordSystemVersions.Config;
+	badwordsystem.version.Filter = global.CGsDBMBadWordSystemVersions.Filter || "Type any non-command to fetch filter version.";
+	badwordsystem.version.Reset = global.CGsDBMBadWordSystemVersions.Reset || "The reset command must be run to fetch its version (You do not need to actually reset anything).";
+	badwordsystem.version.Convert = global.CGsDBMBadWordSystemVersions.Convert || "The convert command must be run to fetch its version (You do not need to actually convert anything).";
 	
 	// This is a starting bad word list. You may, and likely will add more to this (though you should do so through the provided commands).
 	const wordlist = badwordsystem.badwordlist || [{"word":"anal"},{"word":"anus"},{"word":"arse"},{"word":"ass"},{"word":"asshole"},{"word":"ballsack"},{"word":"balls"},{"word":"bastard"},{"word":"bitch"},{"word":"blowjob"},{"word":"blow job"},{"word":"boner"},{"word":"boob"},{"word":"clit"},{"word":"clitoris"},{"word":"cock"},{"word":"coon"},{"word":"cunnilingus"},{"word":"cunt"},{"word":"damn"},{"word":"dick"},{"word":"dildo"},{"word":"dyke"},{"word":"fag"},{"word":"faggot"},{"word":"fellate"},{"word":"fellatio"},{"word":"fuck"},{"word":"goddamn"},{"word":"god damn"},{"word":"hell"},{"word":"homo"},{"word":"jizz"},{"word":"labia"},{"word":"nigga"},{"word":"nigger"},{"word":"penis"},{"word":"pube"},{"word":"pussy"},{"word":"queer"},{"word":"scrotum"},{"word":"sex"},{"word":"shit"},{"word":"slut"},{"word":"smegma"},{"word":"tit"},{"word":"twat"},{"word":"vagina"},{"word":"wank"},{"word":"whore"}];

@@ -1,6 +1,6 @@
 // Javascript code here. Editing this will prevent you from receiving any support.
 if (!global.CGsDBMBadWordSystemVersions) global.CGsDBMBadWordSystemVersions = {};
-global.CGsDBMBadWordSystemVersions.Filter = "2.1.0";
+global.CGsDBMBadWordSystemVersions.Filter = "2.1.1";
 (async () => {
 	const ensure = Actions.getMods().require;
 	const db = ensure('quick.db');
@@ -90,7 +90,7 @@ global.CGsDBMBadWordSystemVersions.Filter = "2.1.0";
 					break;
 				case "matchany":
 				case "matchanycasingmatters":
-					reg = new RegExp(wordlist[i].word}, (matchstyle === "matchany") ? 'i' : '');
+					reg = new RegExp(wordlist[i].word, (matchstyle === "matchany") ? 'i' : '');
 					if (mode.operation === "standard" && reg.test(msg.content)) {
 						actions = actions.concat(action);
 						words.push(wordlist[i].word);

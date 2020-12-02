@@ -1,11 +1,12 @@
-// Javascript code here. Do NOT edit this or you will likely break it.
+// Javascript code here. Editing this will prevent you from receiving any support.
+if (!global.CGsDBMBadWordSystemVersions) global.CGsDBMBadWordSystemVersions = {};
+global.CGsDBMBadWordSystemVersions.Filter = "2.1.0";
 (async () => {
-	const ensure = this.getMods().require;
+	const ensure = Actions.getMods().require;
 	const db = ensure('quick.db');
-	const isImageURL = ensure('image-url-validator'); // Invalid embed images break without it.
 	const { parse, stringify } = JSON5 = ensure('json5');
+	const isImageURL = ensure('image-url-validator'); // Invalid embed images break without it.
 	
-	// createPath(['triangle', 'points'], obj, 3);
 	function ensurePath(path, obj, def) { // def = default value (optional; defaults to empty object). Built in checking if object already exists. If it does not exist, creates the path.
 		for(let i = 0; i < path.length; i++) {
 			obj = obj[path[i]] = obj[path[i]] || ((def !== undefined && (i === path.length - 1)) ? def : {});
@@ -24,7 +25,7 @@
 	
 	const enabled = badwordsystem.status;
 	
-	// If not enabled, do nothing. DBM doesn't allow for "if (!enabled) return;"
+	// If not enabled, do nothing. DBM doesn't allow for "if (!enabled) return; w/o encasing it in this function."
 	if (!enabled) { cache.index += 1; return Actions.callNextAction(cache); }
 	
 	// This is just a starting bad word list.
@@ -37,13 +38,11 @@
 	ensurePath(['config', 'channels', 'badwordlog'], badwordsystem);
 	ensurePath(['config', 'channels', 'actionlog'], badwordsystem);
 	ensurePath(['config', 'commands', 'disabled'], badwordsystem, []);
-
+	
 	const usermode = (badwordsystem.config.defaults.usermode === 'id') ? msg.author.id : (badwordsystem.config.defaults.usermode === 'tag' ? msg.author.tag : msg.author);
 	const badwordlogchannel = bot.channels.cache.get(badwordsystem.config.channels.badwordlog.channelid) || ''; // In case no channel exists anymore for the stored ChannelID.
 	const actionlogchannel = bot.channels.cache.get(badwordsystem.config.channels.actionlog.channelid) || ''; // In case no channel exists anymore for the stored ChannelID.
-
-    const nickname = msg.member.displayName;
-
+	
 	const url = `https://github.com/DanTheComputerMan/javascript/tree/master/Discord%20Bot%20Maker%20(DBM)/RAW%20Data/Bad%20Words%20System`;
 	
 	const em = new DiscordJS.MessageEmbed;
@@ -51,18 +50,18 @@
 	if (badwordsystem.config.defaults.config.footer) em.setFooter(badwordsystem.config.defaults.config.footer);
 	if (await isImageURL(badwordsystem.config.defaults.config.imageURL)) em.setImage(badwordsystem.config.defaults.config.imageURL);
 	if (await isImageURL(badwordsystem.config.defaults.config.thumbnailURL)) em.setThumbnail(badwordsystem.config.defaults.config.thumbnailURL);
-		
+	
 	em.setURL(url)
 		.setColor(badwordsystem.config.defaults.config.color || 'GREEN')
-
-	const matchstyle = badwordsystem.config.defaults.config.matchstyle || "matchword";
+	
+	const matchstyle = badwordsystem.config.defaults.matchstyle || "matchword";
 	const default_mode = badwordsystem.config.defaults.config.mode || {operation: "standard"}; // standard, substitution, extended, and regex. Substitution is WIP.
-	const default_action = badwordsystem.config.defaults.config.action || ["delete"];
+	const default_action = badwordsystem.config.defaults.config.action || [ "delete" ];
 	const default_rules = badwordsystem.config.defaults.config.rules || {};
 	let actions = []; const words = [];
 	let reg;
 	
-    // If not a whitelisted channel, or not by someone with a whitelisted role, proceed.
+	// If not a whitelisted channel, or not by someone with a whitelisted role, proceed.
 	if (badwordsystem.config.filters.channels.indexOf(msg.channel.id) !== -1) { cache.index += 1; return Actions.callNextAction(cache); }
 	if (badwordsystem.config.filters.roles.some(id => msg.member.roles.cache.map(r => r.id).includes(id))) { cache.index += 1; return Actions.callNextAction(cache); }
 	
@@ -72,7 +71,8 @@
 		let action = wordlist[i].action || default_action;
 		
 		// If in an allowed channel, or by someone with an allowed role, skip.
-		if (wordlist[i].filters && ((wordlist[i].filters.channels && msg.channel.id.indexOf(wordlist[i].filters.channels) !== -1) || (wordlist[i].filters.roles && wordlist[i].filters.roles.some(msg.member.roles)))) continue;
+		if (wordlist[i].filters && ((wordlist[i].filters.channels && wordlist[i].filters.channels.indexOf(msg.channel.id) !== -1) || (wordlist[i].filters.roles && wordlist[i].filters.roles.some(r => msg.member.roles.cache.has(r))))) continue;
+		
 		if (mode.operation === "regex") {
 			reg = new RegExp(wordlist[i].word, mode.flags || "");
 			if (reg.test(msg.content.match)) {
@@ -90,7 +90,7 @@
 					break;
 				case "matchany":
 				case "matchanycasingmatters":
-					reg = new RegExp(`\\b${wordlist[i].word}\\b`, (matchstyle === "matchany") ? 'i' : '');
+					reg = new RegExp(wordlist[i].word}, (matchstyle === "matchany") ? 'i' : '');
 					if (mode.operation === "standard" && reg.test(msg.content)) {
 						actions = actions.concat(action);
 						words.push(wordlist[i].word);
@@ -121,8 +121,7 @@
 		if (default_rules.BreakOnMatch && words.length === 1) break;
 	}
 	if (words.length === 0) { cache.index++; return Actions.callNextAction(cache); } // If there are no words caught, stop.
-	actions = [...new Set(actions)]; // words = words.filter(Boolean);
-	console.log(words, actions);
+	actions = [...new Set(actions)];
 	
 	// Now, perform actions. Ex: Delete the message, and mute/kick/ban the user.
 	if (actions.indexOf('delete') !== -1) {

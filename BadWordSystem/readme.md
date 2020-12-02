@@ -26,7 +26,7 @@ If there are still issues, your last resort is to follow the creator's installat
 For best results, place the bot with admin permissions, and with the highest role. Regardless of your setup however, this cannot kick/ban the server owner, based on the Discord API; it can still delete their offending message though.
 To setup this system, you must either be the server owner, have `administrator` permission, or have `Ban Members`, `Kick Members`, and `Manage Messages` permissions. In addition, the bot must also have these permissions : `kick, ban, and manage messages`. This is not the case when the system is turned on, it just applies to setting up the bot. At the bare minimum, the bot requires `manage messages` permission to properly function and delete the messages.
 
-### Due to the previous version and the updated version being drastically different, the old version is no longer supported and may have incompatibility issues. To ensure you have a working version please run the included reset command and follow the instructions.
+### Due to the previous and the updated version being drastically different, the old version is no longer supported and may have incompatibility issues. To ensure you have a working version please run the included reset command and follow the instructions.
 
 `BadWordFilter` is an "any message sent" command type; all other commands are normal commands.
 
@@ -46,7 +46,7 @@ For this example, the prefix will be `!`. Yours may vary, and if so, substitute 
 !BadWordsSetup rules         (A selection of various rules to choose from that changes how the system behaves when it sees a bad word.)
 !BadWordsSetup transferfrom  (Sends an attachment or link containing all settings in the Bad Word System including bad words.)
 !BadWordsSetup transferto    (Uploads a file containg all settings for the Bad Word System. This is useful if you want to copy the settings from one server to another.)
-!BadWordsSetup version       (Shows you the versions of the commands you have so far. This is helpful to know if you have the most up-to-date version of the system, and which ones (if any) are out-of-date. The current versions are: config:2.1.1, filter:2.0.2, reset:1.0.0, convert:1.0.0
+!BadWordsSetup version       (Shows you the versions of the commands you have so far. This is helpful to know if you have the most up-to-date version of the system, and which ones (if any) are out-of-date. The current versions are: config:2.2.0, filter:2.0.2, reset:1.0.0, convert:1.0.0
 ```
 
 For the upload command, attach a file, and run the command in the "add a comment" field, or alternatively, run the command and add a link to the file (must be a .txt file) **`!BadWordsSetup upload http://www.site.com/list.txt`**
@@ -70,29 +70,31 @@ For the upload command, attach a file, and run the command in the "add a comment
   <p>
 <!--  -->
 
-    !BadWordsSetup defaults usermode   You can choose from a few options to control how it shows users.
-    !BadWordsSetup defaults usermode status   Shows the current usermode (The below user will change based on the user).
-    !BadWordsSetup defaults usermode mention   Sets the usermode to an @mention. This will show up as [@CoolGuy](https://github.com/DanTheComputerMan/javascript/edit/master/Discord%20Bot%20Maker%20(DBM)/RAW%20Data/Bad%20Words%20System/readme.md)
-    !BadWordsSetup defaults usermode mention   Sets the usermode to a tag. This will show up as CoolGuy#9889
-    !BadWordsSetup defaults usermode id   Sets the usermode to an @mention. This will show up as 290391058133811201
-    !BadWordsSetup defaults matchstyle   You can choose from a few options to control how it matches bad words.
-    !BadWordsSetup defaults matchstyle status   Shows the current matchstyle (how it matches words).
-    !BadWordsSetup defaults matchstyle matchword   Sets the matchstyle to matchword. This is the default method.
+    !BadWordsSetup defaults addword                             You can choose from a few options to control how the addword command operates.
+    !BadWordsSetup defaults addword responsetime                Control how long the addword command waits for input before timing out.
+    !BadWordsSetup defaults usermode                            You can choose from a few options to control how it shows users.
+    !BadWordsSetup defaults usermode status                     Shows the current usermode (The below user will change based on the user).
+    !BadWordsSetup defaults usermode mention                    Sets the usermode to an @mention. This will show up as [@CoolGuy](https://github.com/DanTheComputerMan/javascript/edit/master/Discord%20Bot%20Maker%20(DBM)/RAW%20Data/Bad%20Words%20System/readme.md)
+    !BadWordsSetup defaults usermode mention                    Sets the usermode to a tag. This will show up as CoolGuy#9889
+    !BadWordsSetup defaults usermode id                         Sets the usermode to an @mention. This will show up as 290391058133811201
+    !BadWordsSetup defaults matchstyle                          You can choose from a few options to control how it matches bad words.
+    !BadWordsSetup defaults matchstyle status                   Shows the current matchstyle (how it matches words).
+    !BadWordsSetup defaults matchstyle matchword                Sets the matchstyle to matchword. This is the default method.
     !BadWordsSetup defaults matchstyle matchwordcasingmatters   Sets the matchstyle to matchwordcasingmatters.
-    !BadWordsSetup defaults matchstyle matchany   Sets the matchstyle to matchany.
-    !BadWordsSetup defaults matchstyle matchanycasingmatters   Sets the matchstyle to matchanycasingmatters.
-    !BadWordsSetup defaults matchstyle matchregex   Sets the matchstyle to matchregex. This mode is useful if you have regex expressions as words.
-    !BadWordsSetup defaults action   You can choose from a few options to control how it disciplines users. This is only used if the specified word does not have a specific disciplinary action listed for that word.
-    !BadWordsSetup defaults action delete   Sets the default action to delete.
-    !BadWordsSetup defaults action mute   Sets the default action to delete.
-    !BadWordsSetup defaults action kick   Sets the default action to delete.
-    !BadWordsSetup defaults action ban   Sets the default action to delete.
-    !BadWordsSetup defaults muterole   Sets the mute role to apply when user types a word marked as mute. You can [@mention](#) or provide the role's ID. You can also provide "remove" to remove the muterole.
-    !BadWordsSetup defaults color   Sets the default success/neutral embed color. You can also provide "remove" to remove the embed color.
-    !BadWordsSetup defaults image   Sets the default success/neutral embed image. You can also provide "remove" to remove the embed image.
-    !BadWordsSetup defaults thumbnail   Sets the default success/neutral embed thumbnail. You can also provide "remove" to remove the embed thumbnail.
-    !BadWordsSetup defaults footer   Sets the default success/neutral embed footer. You can also provide "remove" to remove the embed footer.
-    !BadWordsSetup defaults timestamp   Enabled/disables the default success/neutral embed timestamp. This shows as the current date/time.
+    !BadWordsSetup defaults matchstyle matchany                 Sets the matchstyle to matchany.
+    !BadWordsSetup defaults matchstyle matchanycasingmatters    Sets the matchstyle to matchanycasingmatters.
+    !BadWordsSetup defaults matchstyle matchregex               Sets the matchstyle to matchregex. This mode is useful if you have regex expressions as words.
+    !BadWordsSetup defaults action                              You can choose from a few options to control how it disciplines users. This is only used if the specified word does not have a specific disciplinary action listed for that word.
+    !BadWordsSetup defaults action delete                       Sets the default action to delete.
+    !BadWordsSetup defaults action mute                         Sets the default action to delete.
+    !BadWordsSetup defaults action kick                         Sets the default action to delete.
+    !BadWordsSetup defaults action ban                          Sets the default action to delete.
+    !BadWordsSetup defaults muterole                            Sets the mute role to apply when user types a word marked as mute. You can [@mention](#) or provide the role's ID. You can also provide "remove" to remove the muterole.
+    !BadWordsSetup defaults color                               Sets the default success/neutral embed color. You can also provide "remove" to remove the embed color.
+    !BadWordsSetup defaults image                               Sets the default success/neutral embed image. You can also provide "remove" to remove the embed image.
+    !BadWordsSetup defaults thumbnail                           Sets the default success/neutral embed thumbnail. You can also provide "remove" to remove the embed thumbnail.
+    !BadWordsSetup defaults footer                              Sets the default success/neutral embed footer. You can also provide "remove" to remove the embed footer.
+    !BadWordsSetup defaults timestamp                           Enables/disables the default success/neutral embed timestamp. This shows as the current date/time.
 
   <details>
   <summary>Click to view/hide matchstyle info</summary>
@@ -100,16 +102,16 @@ For the upload command, attach a file, and run the command in the "add a comment
   <!--  -->
     
     Breakdown:     (Sample string user typed: `Oh Hello Bob, I am going to the store today.`)   and the bad word `hell`.***
-    matchword: Does not match. 'hell' word is not found b/c it's part of a larger word 'hello' (regardless of casing) *(recommended & default method)*.
-    matchwordcasingmatters: Does not match. 'hell' word is not found b/c it's part of a larger word 'hello'.
-    matchany: Does match. Exact 'hell' found in string (doesn't count casing). Doesn't matter that o is after hell *(Not recommended)*.
-    matchanycasingmatters: Does not match. Exact 'hell' not found in string (casing matters) *(Also not recommended)*.
+    matchword:               Does not match. 'hell' word is not found b/c it's part of a larger word 'hello' (regardless of casing) *(recommended & default method)*.
+    matchwordcasingmatters:  Does not match. 'hell' word is not found b/c it's part of a larger word 'hello'.
+    matchany:                Does match. Exact 'hell' found in string (doesn't count casing). Doesn't matter that o is after hell *(Not recommended)*.
+    matchanycasingmatters:   Does not match. Exact 'hell' not found in string (casing matters) *(Also not recommended)*.
 
     Another Example:     (Sample string user typed: `Oh Hell Bob, that sucks for you, considering you're inhell`)   and the bad word `hell`.***
-    matchword: Does match. 'hell' is found (regardless of casing) *(recommended & default method)*.
-    matchwordcasingmatters: Does not match. 'hell' word is not found (casing matters).
-    matchany: Does match. Exact 'hell' found in string (doesn't count casing).
-    matchanycasingmatters: Does match. Exact 'hell' found in string.
+    matchword:               Does match. 'hell' is found (regardless of casing) *(recommended & default method)*.
+    matchwordcasingmatters:  Does not match. 'hell' word is not found (casing matters).
+    matchany:                Does match. Exact 'hell' found in string (doesn't count casing).
+    matchanycasingmatters:   Does match. Exact 'hell' found in string.
     
     There is also another option of matchregex, but that matches regex expressions. Example: the regex is a Discord invite link regex and is: discord\.gg\/.+ and the example string is: "Come to my server! discord.gg/abc123 It's super fun!"
   </p></details>
@@ -122,10 +124,10 @@ For the upload command, attach a file, and run the command in the "add a comment
   <p>
 <!--  -->
 
-    !BadWordsSetup filters   You can choose from a few options to control the filter exceptions.
-    !BadWordsSetup filters status   Shows the enabled filters.
+    !BadWordsSetup filters           You can choose from a few options to control the filter exceptions.
+    !BadWordsSetup filters status    Shows the enabled filters.
     !BadWordsSetup filters channel   Sets a channel to be excluded from the Bad Word System. This can be a [#mod-chat](#) channel mention or the channel's ID.
-    !BadWordsSetup filters role   Sets a role to be excluded from the Bad Word System. This can be a [@Admins](#) role mention or the role's ID.
+    !BadWordsSetup filters role      Sets a role to be excluded from the Bad Word System. This can be a [@Admins](#) role mention or the role's ID.
     
 </p></details>
 
@@ -135,17 +137,17 @@ For the upload command, attach a file, and run the command in the "add a comment
   <p>
 <!--  -->
 
-    !BadWordsSetup rules   You can choose from a few options to control the rule options.
-    !BadWordsSetup rules status   Shows the enabled rules.
-    !BadWordsSetup rules BreakOnMatch   Enables/disables the BreakOnMatch rule. When enabled, this rule will stop looking through the list when it finds its first bad word match.
-    !BadWordsSetup rules PostDeleteMessage   Enables/disables the PostDeleteMessage rule. When enabled, this rule will post a message that a user's message was deleted in the same channel the message was deleted. This can be used as an early warning sign to the user to stop.
+    !BadWordsSetup rules                         You can choose from a few options to control the rule options.
+    !BadWordsSetup rules status                  Shows the enabled rules.
+    !BadWordsSetup rules BreakOnMatch            Enables/disables the BreakOnMatch rule. When enabled, this rule will stop looking through the list when it finds its first bad word match.
+    !BadWordsSetup rules PostDeleteMessage       Enables/disables the PostDeleteMessage rule. When enabled, this rule will post a message that a user's message was deleted in the same channel the message was deleted. This can be used as an early warning sign to the user to stop.
     !BadWordsSetup rules PostDeleteMessageText   Enables/disables the PostDeleteMessageText rule. When enabled, this rule will post a message containing the bad words in the same channel that it found the bad words. This only does something if the PostDeleteMessage rule is enabled.
-    !BadWordsSetup rules PostMuteMessage   Enables/disables the PostMuteMessage rule. When enabled, this rule will post a message that a user was muted. This can be used as an early warning sign to the user to stop.
-    !BadWordsSetup rules PostMuteMessageText   Enables/disables the PostMuteMessageText rule. When enabled, this rule will post a message containing the bad words in the same channel that it found the bad words. This only does something if the PostMuteMessage rule is enabled.
-    !BadWordsSetup rules PostKickMessage   Enables/disables the PostKickMessage rule. When enabled, this rule will post a message that a user was kicked. This can be used as an early warning sign to dissuade other users of doing the same thing.
-    !BadWordsSetup rules PostKickMessageText   Enables/disables the PostKickMessageText rule. When enabled, this rule will post a message containing the bad words in the same channel that it found the bad words. This only does something if the PostKickMessage rule is enabled.
-    !BadWordsSetup rules PostBanMessage   Enables/disables the PostBanMessage rule. When enabled, this rule will post a message that a user was banned. This can be used as an early warning sign to dissuade other users of doing the same thing.
-    !BadWordsSetup rules PostBanMessageText   Enables/disables the PostBanMessageText rule. When enabled, this rule will post a message containing the bad words in the same channel that it found the bad words. This only does something if the PostBanMessage rule is enabled.
+    !BadWordsSetup rules PostMuteMessage         Enables/disables the PostMuteMessage rule. When enabled, this rule will post a message that a user was muted. This can be used as an early warning sign to the user to stop.
+    !BadWordsSetup rules PostMuteMessageText     Enables/disables the PostMuteMessageText rule. When enabled, this rule will post a message containing the bad words in the same channel that it found the bad words. This only does something if the PostMuteMessage rule is enabled.
+    !BadWordsSetup rules PostKickMessage         Enables/disables the PostKickMessage rule. When enabled, this rule will post a message that a user was kicked. This can be used as an early warning sign to dissuade other users of doing the same thing.
+    !BadWordsSetup rules PostKickMessageText     Enables/disables the PostKickMessageText rule. When enabled, this rule will post a message containing the bad words in the same channel that it found the bad words. This only does something if the PostKickMessage rule is enabled.
+    !BadWordsSetup rules PostBanMessage          Enables/disables the PostBanMessage rule. When enabled, this rule will post a message that a user was banned. This can be used as an early warning sign to dissuade other users of doing the same thing.
+    !BadWordsSetup rules PostBanMessageText      Enables/disables the PostBanMessageText rule. When enabled, this rule will post a message containing the bad words in the same channel that it found the bad words. This only does something if the PostBanMessage rule is enabled.
     
 </p></details>
 
@@ -165,6 +167,7 @@ Potential future features (and ones completed):
 - [x] Added default options
 - [x] Added convert command
 - [x] Added mute role option
+- [x] Added single word option to add words
 - [ ] Wildcard support (* can be any character)
 - [ ] Character subsitution (@ = a)
 - [ ] Character set match types (A-z, À-ÖØ-öø-ÿ)

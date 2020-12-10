@@ -126,8 +126,8 @@ For the upload command, attach a file, and run the command in the "add a comment
 
     !BadWordsSetup filters           You can choose from a few options to control the filter exceptions.
     !BadWordsSetup filters status    Shows the enabled filters.
-    !BadWordsSetup filters channel   Sets a channel to be excluded from the Bad Word System. This can be a [#mod-chat](#) channel mention or the channel's ID.
-    !BadWordsSetup filters role      Sets a role to be excluded from the Bad Word System. This can be a [@Admins](#) role mention or the role's ID.
+    !BadWordsSetup filters channel   Sets or removes a channel to be excluded/included from/in the Bad Word System. This can be a [#mod-chat](#) channel mention or the channel's ID.
+    !BadWordsSetup filters role      Sets or removes a role to be excluded/included from/in the Bad Word System. This can be a [@Admins](#) role mention or the role's ID.
     
 </p></details>
 
